@@ -39,11 +39,13 @@ HOMEWORK_STATUSES = {
 
 class CustomError(Exception):
     """Кастомное исключение."""
+    
     pass
 
 
 def send_message(bot, message):
-    """Отправка сообщений!"""
+    """Отправка сообщений."""
+    
     try:
         bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         logger.info('Сообщение отправлено!')
@@ -52,7 +54,8 @@ def send_message(bot, message):
 
 
 def get_api_answer(current_timestamp):
-    """Отправка запроса к эндпоинту API-сервиса!"""
+    """Отправка запроса к эндпоинту API-сервиса."""
+    
     timestamp = current_timestamp or int(time.time() - 2700000)
     params = {'from_date': timestamp}
     try:
@@ -74,7 +77,8 @@ def get_api_answer(current_timestamp):
 
 
 def parse_status(homework):
-    """Парсировка статуса homework!"""
+    """Парсировка статуса homework."""
+    
     homework_name = homework.get('homework_name')
     if homework_name is None:
         raise KeyError('У homework нет имени')
@@ -89,7 +93,8 @@ def parse_status(homework):
 
 
 def check_response(response):
-    """Проверка запроса!"""
+    """Проверка запроса."""
+    
     homeworks = response['homeworks']
     if homeworks is None:
         raise KeyError("Не содержит ключ или пустое значение")
@@ -101,12 +106,14 @@ def check_response(response):
 
 
 def check_tokens():
-    """Проверка доступности переменных окружения!"""
+    """Проверка доступности переменных окружения."""
+    
     return all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID])
 
 
 def main():
     """Основная логика работы бота."""
+    
     if not check_tokens():
         message = 'Отсутствует необходимая переменная среды'
         logger.critical(message)
