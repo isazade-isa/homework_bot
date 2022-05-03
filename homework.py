@@ -38,16 +38,12 @@ HOMEWORK_STATUSES = {
 
 
 class CustomError(Exception):
-    """
-    Кастомное исключение.
-    """
+    """Кастомное исключение."""
     pass
 
 
 def send_message(bot, message):
-    """
-    Отправка сообщений!
-    """
+    """Отправка сообщений!"""
     try:
         bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         logger.info('Сообщение отправлено!')
@@ -56,9 +52,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(current_timestamp):
-    """
-    Отправка запроса к эндпоинту API-сервиса!
-    """
+    """Отправка запроса к эндпоинту API-сервиса!"""
     timestamp = current_timestamp or int(time.time() - 2700000)
     params = {'from_date': timestamp}
     try:
@@ -103,15 +97,11 @@ def check_response(response):
         raise TypeError("Неверный формат homework")
     if not homeworks:
         return False
-    homework_status = response['homeworks'][0].get('status')
-    if homework_status in HOMEWORK_STATUSES:
-        return homeworks
+    return homeworks
 
 
 def check_tokens():
-    """
-    Проверка доступности переменных окружения!
-    """
+    """Проверка доступности переменных окружения!"""
     return all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID])
 
 
