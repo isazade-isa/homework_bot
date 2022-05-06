@@ -59,12 +59,11 @@ def get_api_answer(current_timestamp):
         response = requests.get(url=ENDPOINT, headers=HEADERS, params=params)
         if response.status_code != OK:
             message = 'Ошибка при получении ответа с сервера'
-            logger.info(message)
             raise exception.NonStatusCodeError(message)
         logger.info('Соединение с сервером установлено!')
         return response.json()
     except json.decoder.JSONDecodeError:
-        print('Ошибка преобразования в JSON')
+        raise exception.JSonDecoderError('Ошибка преобразования в JSON')
     except requests.RequestException as request_error:
         message = f'Код ответа API (RequestException): {request_error}'
         raise exception.WrongStatusCodeError(message)
@@ -91,9 +90,9 @@ def check_response(response):
 
 def parse_status(homework):
     """Парсировка статуса homework."""
-    homework_name = homework.get('homework_name')
     if not isinstance(homework, Dict):
         raise TypeError("homework не является словарем!")
+    homework_name = homework.get('homework_name')  # если я правильно понял :)
     if homework_name is None:
         raise KeyError('У homework нет имени')
     homework_status = homework.get('status')
@@ -106,7 +105,7 @@ def parse_status(homework):
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
 
-def check_tokens():
+def check_tokens():  # правильно ли я сделал этот пункт? а то есть сомнения небольшие )
     """Проверка доступности переменных окружения."""
     if all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]):
         return True
@@ -140,10 +139,11 @@ def main():
             current_timestamp = response.get('current_date', current_timestamp)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            logger.error(message)
+            logger.error(error)
             if message != prev_msg:
                 send_message(bot, message)
-                prev_msg = send_message(bot, message)
+                prev_msg = message
+                # тут у меня ошибка была, вчера после отправки на ревью заметил и исправил )
         finally:
             time.sleep(RETRY_TIME)
 

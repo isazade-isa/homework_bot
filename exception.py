@@ -23,3 +23,9 @@ class NonTokenError(Exception):
     """Исключение отсутствия Токена."""
 
     pass
+
+
+class JSonDecoderError(Exception):
+    """Ошибка преобразования в JSON."""
+
+    pass
