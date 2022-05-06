@@ -105,10 +105,11 @@ def parse_status(homework):
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
 
-def check_tokens():  # правильно ли я сделал этот пункт? а то есть сомнения небольшие )
+def check_tokens():
     """Проверка доступности переменных окружения."""
     if all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]):
         return True
+    # правильно ли я сделал этот пункт? а то есть сомнения небольшие )
     elif PRACTICUM_TOKEN is None:
         logger.info('Отсутствует PRACTICUM_TOKEN')
         return False
@@ -142,8 +143,8 @@ def main():
             logger.error(error)
             if message != prev_msg:
                 send_message(bot, message)
-                prev_msg = message
-                # тут у меня ошибка была, вчера после отправки на ревью заметил и исправил )
+                prev_msg = message  # тут у меня ошибка была, вчера
+                # после отправки на ревью заметил и исправил )
         finally:
             time.sleep(RETRY_TIME)
 
