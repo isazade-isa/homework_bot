@@ -1,6 +1,6 @@
 # Homework bot
 
-##Python telegram bot
+## Python telegram bot
 
 ### Описание:
 Проект сервиса telegram_bot, работающий с API сервиса Практикум.Домашка.
